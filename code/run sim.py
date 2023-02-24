@@ -69,14 +69,14 @@ def create_model(modelMethod, dataMethod):
 pieces = []
 seed = 0
 for dataMethod in [1, 2]:
-    for modelMethod in [3]:
+    for modelMethod in [1, 2, 3]:
         print(modelMethod)
-        for col in [5, 10]:
-            for b in np.arange(0, 1):
+        for col in np.arange(5, 105, 5):
+            for b in np.arange(0, 10, 1):
 
                 # create data
                 seed += 1
-                X_train, y_train, dataType = create_data(200, col, seed, dataMethod)
+                X_train, y_train, dataType = create_data(100000, col, seed, dataMethod)
 
                 baseModel, approach= create_model(modelMethod, dataMethod)
 
