@@ -1,0 +1,69 @@
+---
+format:
+  gfm:
+    html-math-method: webtex
+jupyter: python3
+---
+
+## Repo Overview
+
+For machine learning problems, a standard question is how to pick features. Many methods have been proposed. This repo compares recursive feature elimination to boruta. Both methods are resampling based.
+
+-   Does the method find the correct number of features?
+-   Do results depend on model used?
+-   Do results depend on problem? Regression vs Classification.
+
+```{python}
+#| include: false
+import os
+import numpy as np
+import pandas as pd
+from plotnine import ggplot, aes, labs, facet_grid
+from plotnine import scale_x_continuous, scale_y_continuous
+from plotnine import geom_line, geom_point, geom_hline
+
+os.chdir('S:/Python/projects/feature_selection')
+```
+
+## Simulation Setup
+
+Basic outline:
+
+-   Step 1: Create data.
+-   Step 2: Select a model. Random forest or extra trees.
+-   Step 3: Record the number of features selected by recursive feature elimination.
+-   Step 4: Record the number of features selected by boruta.
+
+The correct number of features is varied. Each combination of settings is repeated 10 times and an average is computed to reduce variability.
+
+The first few iteration look like
+```{python}
+#| echo: false
+result = pd.read_csv('data/result.csv')
+print(result.head())
+```
+
+```{python}
+#| echo: false
+result = result.groupby(['model', 'dataType', 'col'], as_index=False).mean().drop(['b'], axis=1)
+```
+
+## Results
+
+```{python}
+#| echo: false
+temp = result.melt(id_vars=['model', 'dataType', 'col'], value_vars=['rfecv', 'boruta'])
+(
+    ggplot(temp, aes(x = 'col', y = 'value', color = 'variable', group = 'variable'))
+    + geom_line()
+    + geom_point()
+    + scale_x_continuous(breaks = np.arange(5, 200, 10), limits = [5, 100])
+    + scale_y_continuous(breaks = np.arange(5, 200, 10), limits = [5, 100])
+    + labs(x = "Correct Number of Columns", y = "Selected Number of Columns", color = "Method")
+    + facet_grid('model~dataType')
+)
+```
+
+## Technical Considerations
+
+Ideally, the feature selection method works with any model. Unfortunately, both methods limit the type of models. Recursive feature elimination requires the base estimator to have either coef_ or feature_importance_ attributes. Boruta requires the base estimator to have the feature_importance_ attribute. Many estimators don't have these attributes.
