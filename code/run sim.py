@@ -75,9 +75,9 @@ for dataMethod in [1, 2]:
         print(modelMethod)
         print("======================")
         print("")
-        for col in np.arange(5, 105, 5):
+        for col in np.arange(5, 105, 10):
             print("col: " + str(col))
-            for b in np.arange(0, 5, 1):
+            for b in np.arange(0, 3, 1):
 
                 # create data
                 seed += 1
@@ -99,6 +99,10 @@ for dataMethod in [1, 2]:
                 piece = {'model':[approach], 'dataType':[dataType], 'col':[col], 'b':[b], 'rfecv':[n_features_rfecv], 'boruta':[n_features_boruta]}
                 piece = pd.DataFrame(piece)
                 pieces.append(piece)
+
+                # save progress
+                fn = 'data/progress_' + str(seed) + '.csv'
+                piece.to_csv(path_or_buf = fn, index=False)
 
 result = pd.concat(pieces)
 result.sort_values(['model', 'dataType', 'col', 'b'])
