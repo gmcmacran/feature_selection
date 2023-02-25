@@ -6,7 +6,8 @@
 # Method 1: Recursive feature elimination with cross-validation
 # Method 2: boruta
 #
-# Takes a loooooong time to run.
+# Using lightgbm's gpu training. Still takes a loooooong time to 
+# run.
 ##################################################################
 
 # %%
@@ -14,9 +15,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.datasets import make_regression, make_classification
-from sklearn.ensemble import ExtraTreesClassifier, ExtraTreesRegressor
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+from lightgbm import LGBMRegressor, LGBMClassifier
 from sklearn.feature_selection import RFECV
 from boruta import BorutaPy
 
@@ -42,23 +41,25 @@ def create_data(nrow, col, seed, dataMethod):
 
 def create_model(modelMethod, dataMethod):
     if modelMethod == 1:
-        approach = "extra trees"
-        if dataMethod == 1:
-            model = ExtraTreesClassifier(n_jobs=-1)
-        else:
-            model = ExtraTreesRegressor(n_jobs=-1)
-    elif modelMethod == 2:
         approach = "random forest"
         if dataMethod == 1:
-            model = RandomForestClassifier(n_jobs=-1)
+            model = LGBMClassifier(n_estimators = 100, max_depth = -1, num_leaves = 1000, 
+                                   learning_rate = 1, subsample = 0.63, subsample_freq = 1, 
+                                   reg_lambda = 0, reg_alpha = 0, min_child_samples = 1,
+                                   colsample_bytree = 1/3, device_type = 'gpu', n_jobs=8)
         else:
-            model = RandomForestRegressor(n_jobs=-1)
+            model = LGBMRegressor(n_estimators = 100, max_depth = -1, num_leaves = 1000, 
+                                   learning_rate = 1, subsample = 0.63, subsample_freq = 1, 
+                                   reg_lambda = 0, reg_alpha = 0, min_child_samples = 1,
+                                   colsample_bytree = 1/3, device_type = 'gpu', n_jobs=8)
     else:
         approach = "boosting"
         if dataMethod == 1:
-            model = GradientBoostingClassifier()
+            model = LGBMClassifier(boosting_type = 'gbdt', n_estimators = 100, 
+                                   device_type = 'gpu', n_jobs=8)
         else:
-            model = GradientBoostingRegressor()
+            model = LGBMRegressor(boosting_type = 'gbdt', n_estimators = 100, 
+                                  device_type = 'gpu', n_jobs=8)
     
     return model, approach
 
@@ -69,14 +70,18 @@ def create_model(modelMethod, dataMethod):
 pieces = []
 seed = 0
 for dataMethod in [1, 2]:
-    for modelMethod in [1, 2, 3]:
+    for modelMethod in [1, 2]:
+        print("======================")
         print(modelMethod)
+        print("======================")
+        print("")
         for col in np.arange(5, 105, 5):
-            for b in np.arange(0, 10, 1):
+            print("col: " + str(col))
+            for b in np.arange(0, 5, 1):
 
                 # create data
                 seed += 1
-                X_train, y_train, dataType = create_data(100000, col, seed, dataMethod)
+                X_train, y_train, dataType = create_data(50000, col, seed, dataMethod)
 
                 baseModel, approach= create_model(modelMethod, dataMethod)
 
@@ -86,7 +91,7 @@ for dataMethod in [1, 2]:
                 n_features_rfecv = model_rfecv.n_features_
 
                 # boruta
-                model_boruta = BorutaPy(estimator = baseModel, n_estimators='auto')
+                model_boruta = BorutaPy(estimator = baseModel)
                 model_boruta.fit(X_train, y_train)
                 n_features_boruta = model_boruta.n_features_
 
