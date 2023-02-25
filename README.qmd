@@ -34,7 +34,7 @@ Basic outline:
 -   Step 3: Record the number of features selected by recursive feature elimination.
 -   Step 4: Record the number of features selected by boruta.
 
-The correct number of features is varied. Each combination of settings is repeated 10 times and an average is computed to reduce variability.
+The correct number of features is varied. Each combination of settings is repeated 5 times and an average is computed to reduce variability.
 
 The first few iteration look like
 ```{python}
