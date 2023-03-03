@@ -46,20 +46,20 @@ def create_model(modelMethod, dataMethod):
             model = LGBMClassifier(n_estimators = 100, max_depth = -1, num_leaves = 1000, 
                                    learning_rate = 1, subsample = 0.63, subsample_freq = 1, 
                                    reg_lambda = 0, reg_alpha = 0, min_child_samples = 1,
-                                   colsample_bytree = 1/3, device_type = 'gpu', n_jobs=8)
+                                   colsample_bytree = 1/3, device_type = 'gpu', max_bin =15, n_jobs=8)
         else:
             model = LGBMRegressor(n_estimators = 100, max_depth = -1, num_leaves = 1000, 
                                    learning_rate = 1, subsample = 0.63, subsample_freq = 1, 
                                    reg_lambda = 0, reg_alpha = 0, min_child_samples = 1,
-                                   colsample_bytree = 1/3, device_type = 'gpu', n_jobs=8)
+                                   colsample_bytree = 1/3, device_type = 'gpu', max_bin =15, n_jobs=8)
     else:
         approach = "boosting"
         if dataMethod == 1:
             model = LGBMClassifier(boosting_type = 'gbdt', n_estimators = 100, 
-                                   device_type = 'gpu', n_jobs=8)
+                                   device_type = 'gpu', max_bin =15, n_jobs=8)
         else:
             model = LGBMRegressor(boosting_type = 'gbdt', n_estimators = 100, 
-                                  device_type = 'gpu', n_jobs=8)
+                                  device_type = 'gpu', max_bin =15, n_jobs=8)
     
     return model, approach
 
@@ -67,9 +67,14 @@ def create_model(modelMethod, dataMethod):
 # run sim
 ##############
 # %%
+
 pieces = []
-seed = 0
-for dataMethod in [1, 2]:
+seed = 60
+dataMethod = 2
+modelMethod = 1
+col = 5
+b = 0
+for dataMethod in [2]:
     for modelMethod in [1, 2]:
         print("======================")
         print(modelMethod)
@@ -86,7 +91,7 @@ for dataMethod in [1, 2]:
                 baseModel, approach= create_model(modelMethod, dataMethod)
 
                 # RFECV
-                model_rfecv = RFECV(estimator = baseModel)
+                model_rfecv = RFECV(estimator = baseModel, n_jobs=1)
                 model_rfecv.fit(X_train, y_train)
                 n_features_rfecv = model_rfecv.n_features_
 
@@ -110,4 +115,3 @@ result.sort_values(['model', 'dataType', 'col', 'b'])
 # %%
 result.to_csv(path_or_buf = 'data/result.csv', index=False)
 
-# %%
