@@ -69,12 +69,8 @@ def create_model(modelMethod, dataMethod):
 # %%
 
 pieces = []
-seed = 60
-dataMethod = 2
-modelMethod = 1
-col = 5
-b = 0
-for dataMethod in [2]:
+seed = 0
+for dataMethod in [1]:
     for modelMethod in [1, 2]:
         print("======================")
         print(modelMethod)
@@ -106,7 +102,7 @@ for dataMethod in [2]:
                 pieces.append(piece)
 
                 # save progress
-                fn = 'data/progress_' + str(seed) + '.csv'
+                fn = 'data/progress/progress_' + str(seed) + '.csv'
                 piece.to_csv(path_or_buf = fn, index=False)
 
 result = pd.concat(pieces)
@@ -115,3 +111,5 @@ result.sort_values(['model', 'dataType', 'col', 'b'])
 # %%
 result.to_csv(path_or_buf = 'data/result.csv', index=False)
 
+
+# %%
