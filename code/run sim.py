@@ -7,7 +7,9 @@
 # Method 2: boruta
 #
 # Using lightgbm's gpu training. Still takes a loooooong time to 
-# run.
+# run. Classification takes about 17 hours. Regression is on
+# take for 19 days! Not going to run regression. Hardware: 12700K
+# CPU and 4070 TI.
 ##################################################################
 
 # %%
@@ -31,7 +33,9 @@ os.chdir('S:/Python/projects/feature_selection')
 # %%
 def create_data(nrow, col, seed, dataMethod):
     if dataMethod == 1:
-        X, y = make_classification(n_samples = nrow,  n_features = 100, n_informative= col, n_redundant = 100-col, random_state=seed)
+        X, y = make_classification(n_samples = nrow,  n_features = col, n_informative= col, n_redundant = 0, random_state=seed)
+        random_X = np.random.standard_normal(size = [nrow, 100 - col])
+        X = np.concatenate( (X, random_X), axis = 1)
         type = 'classification'
     else:
         X, y = make_regression(n_samples = nrow,  n_features = 100, n_informative= col, random_state=seed)
@@ -78,7 +82,7 @@ for dataMethod in [1]:
         print("")
         for col in np.arange(5, 105, 10):
             print("col: " + str(col))
-            for b in np.arange(0, 3, 1):
+            for b in np.arange(0, 5, 1):
 
                 # create data
                 seed += 1
