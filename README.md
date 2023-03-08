@@ -14,21 +14,24 @@ use if I had to pick just one. Both methods work well, but boruta takes
 **much** longer to compute. Depending on time constraints or scale of
 data, this could be a major issue.
 
-Switching between methods requires one line of code change. If compute
-speed is not an issue or if a python session can run over night, trying
-both methods takes almost no time to code.
+Switching between methods requires one line of code to change. If
+compute speed is not an issue or if a python session can run over night,
+trying both methods takes almost no time to code.
 
 ## Simulation Setup
 
-Basic outline: - Step 1: Create data. - Step 2: Select a model. Random
-forest or extra trees. - Step 3: Record the number of features selected
-by recursive feature elimination. - Step 4: Record the number of
-features selected by boruta.
+Basic outline:
+
+- Step 1: Create data.
+- Step 2: Select a model. Random forest or extra trees.
+- Step 3: Record the number of features selected by recursive feature
+  elimination.
+- Step 4: Record the number of features selected by boruta.
 
 The correct number of features is varied. Each combination of settings
 is repeated 5 times and an average is computed to reduce variability.
-Model hyper parameters are left at default values. Feature selection
-hyper parameters are left at default values as well.
+Model hyper parameters and feature selection hyper parameters are left
+at default values.
 
 The first few iteration look like
 
@@ -47,7 +50,7 @@ other colors are to green, the better.
 
 ![](README_files/figure-commonmark/cell-5-output-1.png)
 
-    <ggplot: (127993152765)>
+    <ggplot: (121588597757)>
 
 There are two extremes between boosting and random forest that lead to
 performance differences in feature selection. The boosting model had a
@@ -58,12 +61,12 @@ was very low. This shows both feature selection methods are robust
 against an overfitting base estimator.
 
 The random forest model did not overfit. Instead, it did no better than
-using the most common class in training data. Both feature selection
-methods failed to select the correct number of variables. Boruta has the
-advantage of always selecting zero variables which is correct in that no
-feature is predictive for the random forest model. Recursive feature
-elimination did noticeably worse. As the correct number of features
-increases, the number of features selected decreases.
+always predicting the mode. Both feature selection methods failed to
+select the correct number of variables. Boruta has the advantage of
+always selecting zero variables which is correct in that no feature is
+predictive for the random forest model. Recursive feature elimination
+did noticeably worse. As the correct number of features increases, the
+number of features selected decreases.
 
 Both methods are resilient to overfitting. Boruta is a bit better in
 that it returned zero when no features are predictive for the base
@@ -80,7 +83,7 @@ Unfortunately, both methods limit the type of models. Recursive feature
 elimination requires the base estimator to have either coef\_ or
 feature_importance\_ attributes. Boruta requires the base estimator to
 have the feature_importance\_ attribute. Many estimators don’t have
-these attributes.
+these.
 
 Compute time is another major consideration. For regression, this
 simulation was on track for over 20 days of compute time. That is with
