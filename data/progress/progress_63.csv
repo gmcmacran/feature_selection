@@ -1,0 +1,2 @@
+model,dataType,col,b,rfecv,boruta
+boosting,classification,25,2,25,25

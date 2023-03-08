@@ -1,0 +1,2 @@
+model,dataType,col,b,rfecv,boruta
+random forest,classification,85,3,7,0

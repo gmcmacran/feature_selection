@@ -1,0 +1,101 @@
+model,dataType,col,b,rfecv,boruta
+random forest,classification,5,0,75,0
+random forest,classification,5,1,83,0
+random forest,classification,5,2,77,0
+random forest,classification,5,3,95,0
+random forest,classification,5,4,91,0
+random forest,classification,15,0,79,0
+random forest,classification,15,1,93,0
+random forest,classification,15,2,87,0
+random forest,classification,15,3,100,0
+random forest,classification,15,4,93,0
+random forest,classification,25,0,50,0
+random forest,classification,25,1,83,0
+random forest,classification,25,2,86,0
+random forest,classification,25,3,87,0
+random forest,classification,25,4,89,0
+random forest,classification,35,0,100,0
+random forest,classification,35,1,100,0
+random forest,classification,35,2,90,0
+random forest,classification,35,3,82,0
+random forest,classification,35,4,81,0
+random forest,classification,45,0,92,0
+random forest,classification,45,1,68,0
+random forest,classification,45,2,6,1
+random forest,classification,45,3,79,0
+random forest,classification,45,4,88,0
+random forest,classification,55,0,99,0
+random forest,classification,55,1,75,0
+random forest,classification,55,2,6,0
+random forest,classification,55,3,56,0
+random forest,classification,55,4,96,0
+random forest,classification,65,0,7,0
+random forest,classification,65,1,73,0
+random forest,classification,65,2,7,0
+random forest,classification,65,3,95,0
+random forest,classification,65,4,7,0
+random forest,classification,75,0,94,0
+random forest,classification,75,1,7,0
+random forest,classification,75,2,7,0
+random forest,classification,75,3,7,0
+random forest,classification,75,4,74,1
+random forest,classification,85,0,7,0
+random forest,classification,85,1,7,0
+random forest,classification,85,2,92,0
+random forest,classification,85,3,7,0
+random forest,classification,85,4,7,0
+random forest,classification,95,0,98,0
+random forest,classification,95,1,7,0
+random forest,classification,95,2,95,0
+random forest,classification,95,3,92,0
+random forest,classification,95,4,7,0
+boosting,classification,5,0,5,5
+boosting,classification,5,1,5,5
+boosting,classification,5,2,5,5
+boosting,classification,5,3,5,5
+boosting,classification,5,4,5,5
+boosting,classification,15,0,18,15
+boosting,classification,15,1,15,15
+boosting,classification,15,2,20,15
+boosting,classification,15,3,16,15
+boosting,classification,15,4,15,15
+boosting,classification,25,0,25,25
+boosting,classification,25,1,26,25
+boosting,classification,25,2,25,25
+boosting,classification,25,3,25,25
+boosting,classification,25,4,25,25
+boosting,classification,35,0,35,35
+boosting,classification,35,1,35,35
+boosting,classification,35,2,36,35
+boosting,classification,35,3,34,35
+boosting,classification,35,4,35,35
+boosting,classification,45,0,44,45
+boosting,classification,45,1,45,45
+boosting,classification,45,2,45,45
+boosting,classification,45,3,45,45
+boosting,classification,45,4,44,45
+boosting,classification,55,0,55,55
+boosting,classification,55,1,54,55
+boosting,classification,55,2,55,55
+boosting,classification,55,3,55,55
+boosting,classification,55,4,55,55
+boosting,classification,65,0,64,65
+boosting,classification,65,1,61,65
+boosting,classification,65,2,64,65
+boosting,classification,65,3,64,65
+boosting,classification,65,4,65,65
+boosting,classification,75,0,75,75
+boosting,classification,75,1,75,75
+boosting,classification,75,2,74,75
+boosting,classification,75,3,75,75
+boosting,classification,75,4,75,75
+boosting,classification,85,0,84,85
+boosting,classification,85,1,84,85
+boosting,classification,85,2,85,85
+boosting,classification,85,3,82,85
+boosting,classification,85,4,84,85
+boosting,classification,95,0,95,95
+boosting,classification,95,1,95,95
+boosting,classification,95,2,94,95
+boosting,classification,95,3,93,95
+boosting,classification,95,4,94,95
