@@ -115,5 +115,64 @@ result.sort_values(['model', 'dataType', 'col', 'b'])
 # %%
 result.to_csv(path_or_buf = 'data/result.csv', index=False)
 
+##############
+# Inspect fit of models
+##############
+
+# %%
+seed2 = 0
+for col in np.arange(5, 105, 10):
+    seed2 += 1
+    X_train, y_train, _ = create_data(50000, col, seed2, 1)
+
+    seed2 += 1
+    X_test, y_test, _ = create_data(50000, col, seed2, 1)
+
+    trainRate = np.mean(y_train)
+    if trainRate >= .50:
+        trainPreds = np.ones(y_train.shape)
+        testPreds = np.ones(y_train.shape)
+    else:
+        trainPreds = np.zeros(y_train.shape)
+        testPreds = np.zeros(y_train.shape)
+
+    trainScore = np.mean(y_train == trainPreds)
+    testScore = np.mean(y_test == testPreds)
+
+    msg = "Base Line Model: col: " + str(col) + " Train accuracy: " + \
+        str(round(trainScore, 3)) + " Test accuracy: " + str(round(testScore, 3))
+    print(msg)
+
+# %%
+seed2 = 0
+for col in np.arange(5, 105, 10):
+    seed2 += 1
+    X_train, y_train, _ = create_data(50000, col, seed2, 1)
+    baseModel, _ = create_model(1, 1)
+    baseModel.fit(X_train, y_train)
+    trainScore = baseModel.score(X_train, y_train)
+
+    seed2 += 1
+    X_test, y_test, _ = create_data(50000, col, seed2, 1)
+    testScore = baseModel.score(X_test, y_test)
+    msg = "Random Forrest: col: " + str(col) + " Train accuracy: " + \
+        str(round(trainScore, 3)) + " Test accuracy: " + str(round(testScore, 3))
+    print(msg)
+
+# %%
+seed2 = 0
+for col in np.arange(5, 105, 10):
+    seed2 += 1
+    X_train, y_train, _ = create_data(50000, col, seed2, 1)
+    baseModel, _ = create_model(2, 1)
+    baseModel.fit(X_train, y_train)
+    trainScore = baseModel.score(X_train, y_train)
+
+    seed2 += 1
+    X_test, y_test, _ = create_data(50000, col, seed2, 1)
+    testScore = baseModel.score(X_test, y_test)
+    msg = "Boosing: col: " + str(col) + " Train accuracy: " + \
+        str(round(trainScore, 3)) + " Test accuracy: " + str(round(testScore, 3))
+    print(msg)
 
 # %%
